@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROEX UFT — Pró-Reitoria de Extensão, Cultura e Assuntos Comunitários</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rawline:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* ===== IDENTIDADE VISUAL UFT — Design System Gov.br ===== */
+        :root {
+            /* Paleta Primária UFT (blue-warm-vivid) */
+            --primary-default: #1351b4;
+            --primary-darken-01: #0c326f;
+            --primary-darken-02: #071d41;
+            --primary-lighten-01: #2670e8;
+            --primary-lighten-02: #5992ed;
+            --primary-surface: #d4e5ff;
+            --primary-surface-light: #edf5ff;
+
+            /* Paleta Secundária */
+            --secondary-01: #ffffff;
+            --secondary-03: #ededed;
+            --secondary-04: #cccccc;
+            --secondary-06: #888888;
+            --secondary-08: #333333;
+            --secondary-09: #000000;
+
+            /* Cores Institucionais UFT */
+            --highlight: #268744;
+            --highlight-dark: #1b6631;
+            --support-teal: #36a191;
+            --interactive: #1351b4;
+
+            /* Cores Funcionais Gov.br */
+            --success: #168821;
+            --warning: #ffcd07;
+            --danger: #e60000;
+            --info: #155bcb;
+
+            /* Cores do site UFT */
+            --uft-header-bg: #071d41;
+            --uft-accent: #007eb1;
+            --uft-green: #268744;
+
+            /* Layout */
+            --bg-light: #f8f9fc;
+            --bg-card: #ffffff;
+            --text-dark: #071d41;
+            --text-body: #333333;
+            --text-muted: #555555;
+            --text-light: #888888;
+
+            /* Effects */
+            --shadow-sm: 0 2px 8px rgba(7,29,65,0.06);
+            --shadow-md: 0 8px 30px rgba(7,29,65,0.1);
+            --shadow-lg: 0 20px 60px rgba(7,29,65,0.14);
+            --radius: 8px;
+            --radius-lg: 16px;
+            --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: 'Inter', 'Rawline', -apple-system, sans-serif;
+            color: var(--text-body);
+            background: var(--bg-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ===== UTILITY ===== */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section-label {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 3px; color: var(--uft-green);
+            margin-bottom: 12px;
+        }
+        .section-label i { font-size: 0.5rem; }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 800; color: var(--primary-darken-02);
+            line-height: 1.25; margin-bottom: 16px;
+        }
+        .section-subtitle {
+            font-size: 1.05rem; color: var(--text-muted);
+            max-width: 640px; line-height: 1.8;
+        }
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-header .section-subtitle { margin: 0 auto; }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(19,81,180,0.3); }
+            50% { box-shadow: 0 0 0 12px rgba(19,81,180,0); }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes scroll-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ===== GOV.BR TOP BAR ===== */
+        .gov-bar {
+            background: var(--primary-darken-02);
+            padding: 4px 0; font-size: 0.72rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .gov-bar .container {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .gov-bar a {
+            color: rgba(255,255,255,0.7); margin-left: 16px;
+            transition: color 0.3s;
+        }
+        .gov-bar a:hover { color: #fff; }
+        .gov-bar-left { display: flex; align-items: center; gap: 8px; }
+        .gov-bar-left img { height: 16px; }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1000; padding: 0;
+            background: var(--primary-darken-02);
+            transition: var(--transition);
+        }
+        .navbar.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+        .navbar .container {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 64px;
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 14px;
+            color: #fff; transition: var(--transition);
+        }
+        .nav-logo-img {
+            height: 36px;
+            filter: brightness(0) invert(1);
+        }
+        .nav-logo-divider {
+            width: 1px; height: 32px;
+            background: rgba(255,255,255,0.25);
+        }
+        .nav-logo-text {
+            display: flex; flex-direction: column; line-height: 1.2;
+        }
+        .nav-logo-text .title { font-weight: 700; font-size: 0.95rem; }
+        .nav-logo-text .subtitle { font-size: 0.7rem; font-weight: 400; opacity: 0.7; }
+
+        .nav-links { display: flex; gap: 4px; align-items: center; }
+        .nav-links a {
+            padding: 8px 14px; border-radius: var(--radius);
+            font-size: 0.85rem; font-weight: 500; color: rgba(255,255,255,0.8);
+            transition: var(--transition);
+        }
+        .nav-links a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; color: #fff; font-size: 1.4rem; padding: 8px; }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, var(--primary-darken-02) 0%, var(--primary-darken-01) 40%, var(--primary-default) 100%);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 20h20v20H20zM0 0h20v20H0z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* Geometric shapes inspired by UFT's design */
+        .hero-geo {
+            position: absolute; pointer-events: none;
+        }
+        .hero-geo-1 {
+            top: -100px; right: -100px;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(38,135,68,0.15), transparent 70%);
+        }
+        .hero-geo-2 {
+            bottom: -50px; left: -80px;
+            width: 350px; height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(19,81,180,0.2), transparent 70%);
+        }
+        .hero-geo-3 {
+            top: 30%; right: 8%;
+            width: 200px; height: 200px;
+            border: 2px solid rgba(255,255,255,0.06);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            padding: 140px 24px 100px;
+            max-width: 750px;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(38,135,68,0.2);
+            border: 1px solid rgba(38,135,68,0.35);
+            padding: 7px 18px; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 600; color: #8bdf9f;
+            margin-bottom: 28px; letter-spacing: 0.5px;
+            animation: fadeInUp 0.7s ease forwards;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+            font-weight: 800; color: #fff;
+            line-height: 1.15; margin-bottom: 20px;
+            animation: fadeInUp 0.7s ease 0.15s forwards;
+            opacity: 0;
+        }
+        .hero h1 span { color: var(--primary-surface); }
+        .hero p {
+            font-size: 1.1rem; color: rgba(255,255,255,0.7);
+            max-width: 580px; line-height: 1.8;
+            margin-bottom: 36px;
+            animation: fadeInUp 0.7s ease 0.3s forwards;
+            opacity: 0;
+        }
+        .hero-buttons {
+            display: flex; gap: 14px; flex-wrap: wrap;
+            animation: fadeInUp 0.7s ease 0.45s forwards;
+            opacity: 0;
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 13px 28px; border-radius: var(--radius);
+            font-size: 0.92rem; font-weight: 700;
+            cursor: pointer; border: none;
+            transition: var(--transition);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-primary {
+            background: var(--uft-green); color: #fff;
+            box-shadow: 0 4px 16px rgba(38,135,68,0.35);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(38,135,68,0.4); background: var(--highlight-dark); }
+        .btn-outline {
+            background: transparent; color: #fff;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.5); }
+        .hero-scroll {
+            position: absolute; bottom: 32px; left: 50%;
+            transform: translateX(-50%); color: rgba(255,255,255,0.4);
+            font-size: 1.3rem; animation: float 2s ease-in-out infinite;
+        }
+
+        /* Decorative UFT stripe at hero bottom */
+        .hero-stripe {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--uft-green) 0%, var(--uft-green) 33%, var(--primary-default) 33%, var(--primary-default) 66%, var(--primary-darken-01) 66%, var(--primary-darken-01) 100%);
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            position: relative; z-index: 10; margin-top: -48px;
+            padding: 0 24px;
+        }
+        .stats-grid {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+            background: var(--secondary-03); border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg); overflow: hidden;
+        }
+        .stat-item {
+            padding: 30px 20px; text-align: center;
+            background: #fff; transition: var(--transition);
+        }
+        .stat-item:hover { background: var(--primary-surface-light); }
+        .stat-number {
+            font-size: 2rem; font-weight: 800;
+            color: var(--primary-default);
+        }
+        .stat-label {
+            font-size: 0.82rem; color: var(--text-muted);
+            font-weight: 500; margin-top: 4px;
+        }
+
+        /* ===== ABOUT ===== */
+        .about { padding: 110px 0 80px; }
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+        }
+        .about-visual { position: relative; }
+        .about-card-stack { position: relative; height: 420px; }
+        .about-card {
+            position: absolute; padding: 26px; border-radius: var(--radius-lg);
+            background: #fff; box-shadow: var(--shadow-md);
+            border-left: 4px solid; transition: var(--transition);
+        }
+        .about-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .about-card:nth-child(1) { top: 0; left: 0; width: 280px; z-index: 3; border-color: var(--primary-default); }
+        .about-card:nth-child(2) { top: 80px; right: 0; width: 260px; z-index: 2; border-color: var(--uft-green); }
+        .about-card:nth-child(3) { bottom: 0; left: 40px; width: 300px; z-index: 1; border-color: var(--support-teal); }
+        .about-card-icon {
+            width: 46px; height: 46px; border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; margin-bottom: 14px;
+        }
+        .about-card:nth-child(1) .about-card-icon { background: var(--primary-surface-light); color: var(--primary-default); }
+        .about-card:nth-child(2) .about-card-icon { background: #e8f5e9; color: var(--uft-green); }
+        .about-card:nth-child(3) .about-card-icon { background: #e0f2f1; color: var(--support-teal); }
+        .about-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
+        .about-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.65; }
+
+        .about-text .section-label { text-align: left; }
+        .about-text .section-title { text-align: left; }
+        .about-text > p { color: var(--text-muted); margin-bottom: 20px; font-size: 1rem; }
+        .about-pillars { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+        .pillar-tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 16px; border-radius: 100px;
+            background: var(--primary-surface-light); border: 1px solid var(--primary-surface);
+            font-size: 0.82rem; font-weight: 600; color: var(--primary-default);
+            transition: var(--transition);
+        }
+        .pillar-tag:hover { background: var(--primary-default); color: #fff; border-color: var(--primary-default); }
+        .pillar-tag i { font-size: 0.75rem; }
+        .pillar-tag:hover i { color: #fff; }
+
+        /* ===== ACTIONS ===== */
+        .actions { padding: 80px 0 100px; background: #fff; }
+        .actions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .action-card {
+            padding: 32px 24px; border-radius: var(--radius-lg);
+            background: var(--bg-light); border: 1px solid transparent;
+            transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .action-card::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--primary-default), var(--uft-green));
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .action-card:hover::before { transform: scaleX(1); }
+        .action-card:hover {
+            background: #fff; border-color: var(--secondary-03);
+            box-shadow: var(--shadow-md); transform: translateY(-3px);
+        }
+        .action-icon {
+            width: 52px; height: 52px; border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; margin-bottom: 18px;
+        }
+        .action-card:nth-child(1) .action-icon { background: var(--primary-surface-light); color: var(--primary-default); }
+        .action-card:nth-child(2) .action-icon { background: #e8f5e9; color: var(--uft-green); }
+        .action-card:nth-child(3) .action-icon { background: #e0f2f1; color: var(--support-teal); }
+        .action-card:nth-child(4) .action-icon { background: #fff3e0; color: #e67e22; }
+        .action-card:nth-child(5) .action-icon { background: var(--primary-surface-light); color: var(--primary-lighten-01); }
+        .action-card:nth-child(6) .action-icon { background: #fce4ec; color: #c72487; }
+        .action-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
+        .action-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+        /* ===== PROJECTS ===== */
+        .projects { padding: 100px 0; }
+        .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .project-card {
+            border-radius: var(--radius-lg); overflow: hidden;
+            background: #fff; box-shadow: var(--shadow-sm);
+            transition: var(--transition); display: flex; flex-direction: column;
+        }
+        .project-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+        .project-card-header {
+            position: relative; padding: 28px 24px 22px;
+            color: #fff; min-height: 170px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .project-card:nth-child(1) .project-card-header {
+            background: linear-gradient(135deg, var(--primary-default), var(--primary-darken-01));
+        }
+        .project-card:nth-child(2) .project-card-header {
+            background: linear-gradient(135deg, var(--uft-green), var(--highlight-dark));
+        }
+        .project-card:nth-child(3) .project-card-header {
+            background: linear-gradient(135deg, var(--support-teal), #1a7a6d);
+        }
+        .project-number {
+            position: absolute; top: 16px; right: 20px;
+            font-size: 3.5rem; font-weight: 900; opacity: 0.15; line-height: 1;
+        }
+        .project-card-header .project-icon {
+            width: 48px; height: 48px; border-radius: var(--radius);
+            background: rgba(255,255,255,0.18);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; margin-bottom: 14px;
+            backdrop-filter: blur(8px);
+        }
+        .project-card-header h3 { font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
+        .project-card-body {
+            padding: 22px 24px 26px; flex: 1;
+            display: flex; flex-direction: column;
+        }
+        .project-card-body p {
+            font-size: 0.9rem; color: var(--text-muted); line-height: 1.75;
+            margin-bottom: 18px; flex: 1;
+        }
+        .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+        .project-tag {
+            padding: 4px 10px; border-radius: 4px;
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--primary-surface-light); color: var(--primary-default);
+        }
+        .project-meta {
+            display: flex; gap: 18px; padding-top: 14px;
+            border-top: 1px solid var(--secondary-03);
+        }
+        .project-meta-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.8rem; color: var(--text-light);
+        }
+        .project-meta-item i { color: var(--uft-green); font-size: 0.7rem; }
+
+        /* ===== AREAS TEMATICAS ===== */
+        .areas {
+            padding: 100px 0;
+            background: var(--primary-darken-02);
+            color: #fff; overflow: hidden;
+        }
+        .areas .section-label { color: #8bdf9f; }
+        .areas .section-title { color: #fff; }
+        .areas .section-subtitle { color: rgba(255,255,255,0.55); }
+        .areas-marquee-wrapper {
+            margin-top: 20px; overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+        }
+        .areas-marquee {
+            display: flex; gap: 16px;
+            animation: scroll-left 35s linear infinite;
+            width: max-content;
+        }
+        .area-chip {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 14px 24px; border-radius: var(--radius);
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            white-space: nowrap; flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .area-chip:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(38,135,68,0.4);
+            transform: translateY(-2px);
+        }
+        .area-chip-icon {
+            width: 38px; height: 38px; border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.95rem;
+        }
+        .area-chip span { font-weight: 600; font-size: 0.9rem; }
+
+        /* ===== CAMPUS ===== */
+        .campus { padding: 100px 0; }
+        .campus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .campus-card {
+            padding: 26px; border-radius: var(--radius-lg);
+            background: #fff; border: 1px solid var(--secondary-03);
+            transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .campus-card::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--primary-darken-02), var(--primary-darken-01));
+            opacity: 0; transition: var(--transition); z-index: 0;
+            border-radius: var(--radius-lg);
+        }
+        .campus-card:hover::after { opacity: 1; }
+        .campus-card > * { position: relative; z-index: 1; }
+        .campus-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: transparent; }
+        .campus-card:hover * { color: #fff !important; }
+        .campus-pin {
+            width: 42px; height: 42px; border-radius: var(--radius);
+            background: var(--primary-surface-light);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 14px; font-size: 1rem; color: var(--primary-default);
+            transition: var(--transition);
+        }
+        .campus-card:hover .campus-pin { background: rgba(255,255,255,0.15); }
+        .campus-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 5px; color: var(--text-dark); }
+        .campus-card p { font-size: 0.83rem; color: var(--text-muted); }
+
+        /* ===== EDITAIS / TIMELINE ===== */
+        .editais { padding: 100px 0; background: #fff; }
+        .timeline { max-width: 680px; margin: 0 auto; position: relative; }
+        .timeline::before {
+            content: ''; position: absolute;
+            left: 26px; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, var(--uft-green), var(--primary-default));
+        }
+        .timeline-item { padding-left: 68px; margin-bottom: 36px; position: relative; }
+        .timeline-dot {
+            position: absolute; left: 16px; top: 6px;
+            width: 22px; height: 22px; border-radius: 50%;
+            background: var(--uft-green);
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 2px var(--uft-green);
+        }
+        .timeline-item:nth-child(even) .timeline-dot {
+            background: var(--primary-default);
+            box-shadow: 0 0 0 2px var(--primary-default);
+        }
+        .timeline-content {
+            padding: 22px 24px; border-radius: var(--radius);
+            background: var(--bg-light); border: 1px solid var(--secondary-03);
+            transition: var(--transition);
+        }
+        .timeline-content:hover { box-shadow: var(--shadow-md); transform: translateX(4px); }
+        .timeline-content h4 {
+            font-size: 1rem; font-weight: 700; margin-bottom: 8px;
+            color: var(--primary-darken-01);
+        }
+        .timeline-content h4 i { color: var(--uft-green); margin-right: 6px; }
+        .timeline-content p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+        /* ===== CONTACT ===== */
+        .contact {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary-darken-02) 0%, var(--primary-darken-01) 100%);
+            color: #fff;
+        }
+        .contact .section-title { color: #fff; }
+        .contact .section-label { color: #8bdf9f; }
+        .contact-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            margin-top: 44px;
+        }
+        .contact-item {
+            padding: 30px 22px; border-radius: var(--radius-lg);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            text-align: center; transition: var(--transition);
+        }
+        .contact-item:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
+        .contact-item-icon {
+            width: 52px; height: 52px; border-radius: var(--radius);
+            background: rgba(38,135,68,0.2);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 14px; font-size: 1.2rem; color: #8bdf9f;
+        }
+        .contact-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+        .contact-item p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 28px 0; text-align: center;
+            background: #020b18; color: rgba(255,255,255,0.35);
+            font-size: 0.82rem;
+        }
+        footer .footer-stripe {
+            height: 4px; margin-bottom: 24px;
+            background: linear-gradient(90deg, var(--uft-green), var(--primary-default), var(--primary-darken-01));
+        }
+        footer a { color: #8bdf9f; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; gap: 36px; }
+            .about-card-stack { height: auto; position: static; }
+            .about-card { position: static !important; width: 100% !important; margin-bottom: 14px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .actions-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .gov-bar { display: none; }
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex; flex-direction: column;
+                position: absolute; top: 100%; left: 0; right: 0;
+                background: var(--primary-darken-02);
+                padding: 12px; box-shadow: var(--shadow-lg);
+            }
+            .nav-links.open a { padding: 12px 16px; }
+            .nav-toggle { display: block; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .actions-grid { grid-template-columns: 1fr; }
+            .campus-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+            .hero-content { padding: 120px 20px 80px; }
+        }
+        /* ===== SPLASH SCREEN ===== */
+        .splash {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--primary-darken-02);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .splash.hide {
+            opacity: 0; visibility: hidden;
+            pointer-events: none;
+        }
+        .splash-logo-wrapper {
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 36px;
+        }
+        .splash-ring {
+            position: absolute;
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            border: 2px solid rgba(38,135,68,0.3);
+            animation: splash-ring-pulse 2s ease-in-out infinite;
+        }
+        .splash-ring:nth-child(2) {
+            width: 175px; height: 175px;
+            border-color: rgba(19,81,180,0.2);
+            animation-delay: 0.4s;
+        }
+        @keyframes splash-ring-pulse {
+            0%, 100% { transform: scale(0.95); opacity: 0.4; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        .splash-logo {
+            width: 105px; height: 105px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 26px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; z-index: 2;
+            animation: splash-logo-in 0.8s ease forwards;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .splash-logo img {
+            height: 54px;
+            filter: brightness(0) invert(1);
+            animation: splash-logo-breathe 2.5s ease-in-out infinite;
+        }
+        @keyframes splash-logo-in {
+            from { opacity: 0; transform: scale(0.6) rotate(-8deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        @keyframes splash-logo-breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+        .splash-text {
+            text-align: center; color: #fff;
+            animation: splash-text-in 0.7s ease 0.35s forwards;
+            opacity: 0;
+        }
+        .splash-text h2 {
+            font-size: 1.3rem; font-weight: 700;
+            margin-bottom: 6px; letter-spacing: 0.5px;
+        }
+        .splash-text p {
+            font-size: 0.8rem; color: rgba(255,255,255,0.45);
+            font-weight: 400;
+        }
+        @keyframes splash-text-in {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .splash-progress {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 4px; background: rgba(255,255,255,0.05);
+        }
+        .splash-progress-bar {
+            height: 100%; width: 0;
+            background: linear-gradient(90deg, var(--uft-green), var(--primary-default), var(--primary-lighten-01));
+            border-radius: 0 2px 2px 0;
+            animation: splash-load 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes splash-load {
+            0% { width: 0; }
+            25% { width: 40%; }
+            55% { width: 68%; }
+            80% { width: 88%; }
+            100% { width: 100%; }
+        }
+        .splash-stripe {
+            position: absolute; bottom: 4px; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--uft-green) 0%, var(--uft-green) 33%, var(--primary-default) 33%, var(--primary-default) 66%, var(--primary-darken-01) 66%);
+            opacity: 0; animation: splash-stripe-in 0.5s ease 1.6s forwards;
+        }
+        @keyframes splash-stripe-in { to { opacity: 1; } }
+        body.splash-active { overflow: hidden; }
+    </style>
+</head>
+<body class="splash-active">
+
+    <!-- SPLASH SCREEN -->
+    <div class="splash" id="splash">
+        <div class="splash-logo-wrapper">
+            <div class="splash-ring"></div>
+            <div class="splash-ring"></div>
+            <div class="splash-logo">
+                <img src="https://www.uft.edu.br/static/media/LogoHeader.48fc918c.svg" alt="Logo UFT">
+            </div>
+        </div>
+        <div class="splash-text">
+            <h2>Universidade Federal do Tocantins</h2>
+            <p>Pró-Reitoria de Extensão, Cultura e Assuntos Comunitários</p>
+        </div>
+        <div class="splash-progress">
+            <div class="splash-progress-bar"></div>
+        </div>
+        <div class="splash-stripe"></div>
+    </div>
+
+    <!-- NAVBAR UFT -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="nav-logo">
+                <img src="https://www.uft.edu.br/static/media/LogoHeader.48fc918c.svg" alt="Logo UFT" class="nav-logo-img">
+                <div class="nav-logo-divider"></div>
+                <div class="nav-logo-text">
+                    <span class="title">PROEX</span>
+                    <span class="subtitle">Pró-Reitoria de Extensão</span>
+                </div>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#sobre">Sobre</a>
+                <a href="#acoes">Ações</a>
+                <a href="#projetos">Projetos</a>
+                <a href="#areas">Áreas</a>
+                <a href="#campus">Câmpus</a>
+                <a href="#editais">Editais</a>
+                <a href="#contato">Contato</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+        <div class="hero-geo hero-geo-1"></div>
+        <div class="hero-geo hero-geo-2"></div>
+        <div class="hero-geo hero-geo-3"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-university"></i>
+                UNIVERSIDADE FEDERAL DO TOCANTINS
+            </div>
+            <h1>Pró-Reitoria de <span>Extensão, Cultura</span> e Assuntos Comunitários</h1>
+            <p>Conectando universidade e sociedade através da extensão universitária — transformando conhecimento acadêmico em impacto social no Tocantins e na Amazônia Legal.</p>
+            <div class="hero-buttons">
+                <a href="#projetos" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Ver Projetos
+                </a>
+                <a href="#sobre" class="btn btn-outline">
+                    <i class="fas fa-info-circle"></i> Saiba Mais
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
+        <div class="hero-stripe"></div>
+    </section>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+        <div class="stats-grid">
+            <div class="stat-item reveal">
+                <div class="stat-number" data-count="7">0</div>
+                <div class="stat-label">Câmpus Atuantes</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-count="8">0</div>
+                <div class="stat-label">Áreas Temáticas</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-count="6">0</div>
+                <div class="stat-label">Modalidades de Ação</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number">10%</div>
+                <div class="stat-label">Carga Horária em Extensão</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="about" id="sobre">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-visual reveal">
+                    <div class="about-card-stack">
+                        <div class="about-card">
+                            <div class="about-card-icon"><i class="fas fa-bullseye"></i></div>
+                            <h4>Missão</h4>
+                            <p>Acolher e orientar ações acadêmico-comunitárias que contribuam para a transformação social e o desenvolvimento regional sustentável.</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="about-card-icon"><i class="fas fa-handshake"></i></div>
+                            <h4>Integração</h4>
+                            <p>Troca bidirecional de saberes entre universidade e comunidade, valorizando populações tradicionais e grupos vulneráveis.</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="about-card-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <h4>Curricularização</h4>
+                            <p>Mínimo de 10% da carga horária dos cursos de graduação dedicada a Ações Curriculares de Extensão (ACEs).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text reveal">
+                    <div class="section-label"><i class="fas fa-circle"></i> SOBRE A PROEX</div>
+                    <h2 class="section-title">Extensão que Transforma Comunidades</h2>
+                    <p>A <strong>PROEX</strong> é o órgão executivo da UFT responsável por planejar, coordenar, fomentar e avaliar todas as políticas e ações extensionistas, articulando a universidade com os diversos setores da sociedade tocantinense.</p>
+                    <p>Atua orientada pelo princípio constitucional da <strong>indissociabilidade entre Ensino, Pesquisa e Extensão</strong>, com atenção especial a minorias, populações tradicionais e comunidades em situação de vulnerabilidade socioeconômica.</p>
+                    <div class="about-pillars">
+                        <span class="pillar-tag"><i class="fas fa-book"></i> Ensino</span>
+                        <span class="pillar-tag"><i class="fas fa-flask"></i> Pesquisa</span>
+                        <span class="pillar-tag"><i class="fas fa-hands-helping"></i> Extensão</span>
+                        <span class="pillar-tag"><i class="fas fa-users"></i> Inclusão Social</span>
+                        <span class="pillar-tag"><i class="fas fa-leaf"></i> Sustentabilidade</span>
+                        <span class="pillar-tag"><i class="fas fa-lightbulb"></i> Inovação Social</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIONS -->
+    <section class="actions" id="acoes">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label"><i class="fas fa-circle"></i> AÇÕES DE EXTENSÃO</div>
+                <h2 class="section-title">As 6 Modalidades de Extensão</h2>
+                <p class="section-subtitle">Conforme o Plano Nacional de Extensão Universitária (FORPROEX) e o Regulamento de Extensão da UFT.</p>
+            </div>
+            <div class="actions-grid">
+                <div class="action-card reveal">
+                    <div class="action-icon"><i class="fas fa-sitemap"></i></div>
+                    <h3>Programas</h3>
+                    <p>Conjunto articulado de projetos e ações integradas, de caráter orgânico-institucional, com duração de 2 a 4 anos e diretrizes contínuas.</p>
+                </div>
+                <div class="action-card reveal">
+                    <div class="action-icon"><i class="fas fa-project-diagram"></i></div>
+                    <h3>Projetos</h3>
+                    <p>Ações processuais e contínuas de caráter educativo, social, cultural ou tecnológico, com objetivos delineados e prazo determinado.</p>
+                </div>
+                <div class="action-card reveal">
+                    <div class="action-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>Cursos</h3>
+                    <p>Ações pedagógicas teóricas e/ou práticas com carga horária mínima de 8h, critérios de avaliação e emissão de certificados.</p>
+                </div>
+                <div class="action-card reveal">
+                    <div class="action-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>Eventos</h3>
+                    <p>Ações de curta duração — congressos, seminários, fóruns, simpósios, mostras, festivais e semanas acadêmicas.</p>
+                </div>
+                <div class="action-card reveal">
+                    <div class="action-icon"><i class="fas fa-hands-helping"></i></div>
+                    <h3>Prestação de Serviços</h3>
+                    <p>Consultorias, assessorias técnicas, laudos periciais, análises laboratoriais e atendimento direto à comunidade.</p>
+                </div>
+                <div class="action-card reveal">
+                    <div class="action-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>Publicações</h3>
+                    <p>Cartilhas, relatórios técnicos, livros, periódicos, mídias audiovisuais e tecnologias sociais decorrentes da extensão.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="projects" id="projetos">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label"><i class="fas fa-circle"></i> PROJETOS EM DESTAQUE</div>
+                <h2 class="section-title">3 Projetos de Extensão da UFT</h2>
+                <p class="section-subtitle">Conheça três iniciativas de grande impacto social que conectam a universidade à comunidade tocantinense.</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card reveal">
+                    <div class="project-card-header">
+                        <div class="project-number">01</div>
+                        <div class="project-icon"><i class="fas fa-heart"></i></div>
+                        <h3>Universidade da Maturidade (UMA)</h3>
+                    </div>
+                    <div class="project-card-body">
+                        <p>Uma das mais premiadas tecnologias sociais da UFT, criada em 2006. Promove o envelhecimento ativo, resgate da cidadania, melhoria da saúde mental e física, e inclusão sociocultural de adultos e idosos através de disciplinas interdisciplinares e seminários internacionais.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Educação</span>
+                            <span class="project-tag">Saúde</span>
+                            <span class="project-tag">Direitos Humanos</span>
+                        </div>
+                        <div class="project-meta">
+                            <div class="project-meta-item"><i class="fas fa-users"></i> Pessoas 45+ anos</div>
+                            <div class="project-meta-item"><i class="fas fa-map-marker-alt"></i> Multicâmpus</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-card-header">
+                        <div class="project-number">02</div>
+                        <div class="project-icon"><i class="fas fa-child"></i></div>
+                        <h3>Espaço Lúdico Pedagógico (LUPE)</h3>
+                    </div>
+                    <div class="project-card-body">
+                        <p>Projeto de acolhimento educativo e cuidado de crianças em ambientes lúdicos dentro da universidade. Garante condições de permanência para estudantes mães e pais, funcionando como ação de assistência estudantil e formação docente.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Educação</span>
+                            <span class="project-tag">Direitos Humanos</span>
+                            <span class="project-tag">Assistência</span>
+                        </div>
+                        <div class="project-meta">
+                            <div class="project-meta-item"><i class="fas fa-users"></i> Crianças até 6 anos</div>
+                            <div class="project-meta-item"><i class="fas fa-map-marker-alt"></i> 5 Câmpus</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-card-header">
+                        <div class="project-number">03</div>
+                        <div class="project-icon"><i class="fas fa-book-reader"></i></div>
+                        <h3>Cursinho Popular (PADU/CPOP)</h3>
+                    </div>
+                    <div class="project-card-body">
+                        <p>Programa de Acesso Democrático à Universidade que oferece cursos preparatórios gratuitos para ENEM e vestibulares a estudantes de baixa renda e egressos da rede pública. Funciona também como campo de estágio para licenciandos.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Educação</span>
+                            <span class="project-tag">Inclusão Social</span>
+                            <span class="project-tag">Formação</span>
+                        </div>
+                        <div class="project-meta">
+                            <div class="project-meta-item"><i class="fas fa-users"></i> Alunos rede pública</div>
+                            <div class="project-meta-item"><i class="fas fa-map-marker-alt"></i> 3+ Câmpus</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AREAS TEMATICAS -->
+    <section class="areas" id="areas">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label"><i class="fas fa-circle"></i> ÁREAS TEMÁTICAS</div>
+                <h2 class="section-title">8 Áreas de Atuação</h2>
+                <p class="section-subtitle">As áreas temáticas nacionais do FORPROEX adotadas pela UFT para organizar suas ações extensionistas.</p>
+            </div>
+        </div>
+        <div class="areas-marquee-wrapper">
+            <div class="areas-marquee">
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(21,91,203,0.2);color:#5992ed;"><i class="fas fa-bullhorn"></i></div><span>Comunicação</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(199,36,135,0.2);color:#e06cb8;"><i class="fas fa-palette"></i></div><span>Cultura</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(230,0,0,0.15);color:#ff6666;"><i class="fas fa-balance-scale"></i></div><span>Direitos Humanos e Justiça</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(38,135,68,0.2);color:#8bdf9f;"><i class="fas fa-graduation-cap"></i></div><span>Educação</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(54,161,145,0.2);color:#6dd4c8;"><i class="fas fa-leaf"></i></div><span>Meio Ambiente</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(22,136,33,0.2);color:#4cce5b;"><i class="fas fa-heartbeat"></i></div><span>Saúde</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(230,126,34,0.2);color:#f0a050;"><i class="fas fa-cogs"></i></div><span>Tecnologia e Produção</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(255,205,7,0.2);color:#ffcd07;"><i class="fas fa-briefcase"></i></div><span>Trabalho</span></div>
+                <!-- duplicado para loop contínuo -->
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(21,91,203,0.2);color:#5992ed;"><i class="fas fa-bullhorn"></i></div><span>Comunicação</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(199,36,135,0.2);color:#e06cb8;"><i class="fas fa-palette"></i></div><span>Cultura</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(230,0,0,0.15);color:#ff6666;"><i class="fas fa-balance-scale"></i></div><span>Direitos Humanos e Justiça</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(38,135,68,0.2);color:#8bdf9f;"><i class="fas fa-graduation-cap"></i></div><span>Educação</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(54,161,145,0.2);color:#6dd4c8;"><i class="fas fa-leaf"></i></div><span>Meio Ambiente</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(22,136,33,0.2);color:#4cce5b;"><i class="fas fa-heartbeat"></i></div><span>Saúde</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(230,126,34,0.2);color:#f0a050;"><i class="fas fa-cogs"></i></div><span>Tecnologia e Produção</span></div>
+                <div class="area-chip"><div class="area-chip-icon" style="background:rgba(255,205,7,0.2);color:#ffcd07;"><i class="fas fa-briefcase"></i></div><span>Trabalho</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAMPUS -->
+    <section class="campus" id="campus">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label"><i class="fas fa-circle"></i> CÂMPUS DA UFT</div>
+                <h2 class="section-title">Presença em Todo o Tocantins</h2>
+                <p class="section-subtitle">A UFT atua de forma multicâmpus, levando a extensão universitária a todas as regiões do estado.</p>
+            </div>
+            <div class="campus-grid">
+                <div class="campus-card reveal"><div class="campus-pin"><i class="fas fa-map-marker-alt"></i></div><h4>Palmas</h4><p>Sede da Reitoria e da PROEX. Centro administrativo e maior câmpus da UFT.</p></div>
+                <div class="campus-card reveal"><div class="campus-pin"><i class="fas fa-map-marker-alt"></i></div><h4>Araguaína</h4><p>Norte do estado. Referência em ciências agrárias e saúde animal.</p></div>
+                <div class="campus-card reveal"><div class="campus-pin"><i class="fas fa-map-marker-alt"></i></div><h4>Gurupi</h4><p>Sul do Tocantins. Destaque em engenharias e ciências ambientais.</p></div>
+                <div class="campus-card reveal"><div class="campus-pin"><i class="fas fa-map-marker-alt"></i></div><h4>Porto Nacional</h4><p>Região central. Forte atuação em licenciaturas e formação de professores.</p></div>
+                <div class="campus-card reveal"><div class="campus-pin"><i class="fas fa-map-marker-alt"></i></div><h4>Miracema</h4><p>Região central. Foco em serviço social e pedagogia.</p></div>
+                <div class="campus-card reveal"><div class="campus-pin"><i class="fas fa-map-marker-alt"></i></div><h4>Arraias</h4><p>Sudeste tocantinense. Atua com comunidades quilombolas e educação do campo.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDITAIS -->
+    <section class="editais" id="editais">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label"><i class="fas fa-circle"></i> EDITAIS E FOMENTO</div>
+                <h2 class="section-title">Oportunidades de Participação</h2>
+                <p class="section-subtitle">Principais editais e mecanismos de fomento disponibilizados pela PROEX para docentes e discentes.</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4><i class="fas fa-award"></i> PIBEX — Bolsas de Extensão</h4>
+                        <p>Edital anual que concede bolsas remuneradas e vagas voluntárias para estudantes de graduação executarem planos de trabalho vinculados a projetos de extensão aprovados.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4><i class="fas fa-music"></i> Editais de Cultura / Palco UFT</h4>
+                        <p>Seleção periódica de projetos culturais e bolsistas de produção cultural para fomento de intervenções artísticas nos câmpus e comunidades.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4><i class="fas fa-sync-alt"></i> Edital de Fluxo Contínuo</h4>
+                        <p>Submissão e registro contínuo de projetos e programas de extensão sem fomento financeiro direto, via sistema institucional (SIGProj / SIE).</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4><i class="fas fa-file-alt"></i> Editais Específicos e Temáticos</h4>
+                        <p>Editais para o Espaço Lúdico (LUPE), cursinhos populares (PADU) e apoio financeiro à realização de eventos acadêmicos extensionistas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contato">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-label"><i class="fas fa-circle"></i> CONTATO</div>
+                <h2 class="section-title">Fale com a PROEX</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-item reveal">
+                    <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <h4>Endereço</h4>
+                    <p>Quadra 109 Norte, Av. NS-15, ALCNO-14<br>Prédio da Reitoria, Câmpus de Palmas<br>CEP: 77001-090</p>
+                </div>
+                <div class="contact-item reveal">
+                    <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
+                    <h4>E-mails</h4>
+                    <p>proex@uft.edu.br<br>pibex@uft.edu.br<br>cultura@uft.edu.br</p>
+                </div>
+                <div class="contact-item reveal">
+                    <div class="contact-item-icon"><i class="fas fa-phone-alt"></i></div>
+                    <h4>Telefone</h4>
+                    <p>(63) 3229-4036<br><br>
+                    <a href="https://www.uft.edu.br" target="_blank" style="color:#8bdf9f;">
+                        <i class="fas fa-globe"></i> www.uft.edu.br
+                    </a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-stripe"></div>
+        <div class="container">
+            <p>Produto Digital — Introdução ACE 2026.2 | Universidade Federal do Tocantins<br>
+            <small>Desenvolvido como atividade de extensão curricular</small></p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Splash screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.classList.add('hide');
+                document.body.classList.remove('splash-active');
+                // Remove from DOM after fade-out
+                setTimeout(() => splash.remove(), 700);
+            }, 2400);
+        });
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // Mobile nav
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            const icon = navToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                const icon = navToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+
+        // Scroll reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('active'), i * 70);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Counter animation
+        const counters = document.querySelectorAll('.stat-number[data-count]');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count);
+                    let current = 0;
+                    const increment = Math.ceil(target / 35);
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) { current = target; clearInterval(timer); }
+                        el.textContent = current;
+                    }, 45);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => counterObserver.observe(c));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const top = target.getBoundingClientRect().top + window.scrollY - 70;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
